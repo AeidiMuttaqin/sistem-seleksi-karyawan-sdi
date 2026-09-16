@@ -1,0 +1,329 @@
+// Prisma Schema - Sistem Informasi Seleksi Calon Karyawan
+// PT. Solusi Datamart Indonesia
+// Tugas Akhir - Aeidi Muttaqin
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USER & AUTH
+// ============================================================
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidate         Candidate?
+  companyAdmin      CompanyAdmin?
+  createdQuestions  Question[]      @relation("QuestionCreator")
+  notifications     Notification[]  @relation("NotificationRecipient")
+  sentNotifications Notification[]  @relation("NotificationSender")
+  loginHistories    LoginHistory[]
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model LoginHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  loginAt   DateTime @default(now())
+  ipAddress String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("login_histories")
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("verification_codes")
+}
+
+// ============================================================
+// COMPANY
+// ============================================================
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  address     String?
+  phone       String?
+  email       String?
+  website     String?
+  description String?
+  logoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  companyAdmins  CompanyAdmin[]
+  questions      Question[]
+  questionCodes  QuestionCode[]
+  testSchedules  TestSchedule[]
+
+  @@map("companies")
+}
+
+model CompanyAdmin {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  companyId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("company_admins")
+}
+
+// ============================================================
+// CANDIDATE (CALON KARYAWAN)
+// ============================================================
+
+model Candidate {
+  id           String          @id @default(cuid())
+  userId       String          @unique
+  fullName     String
+  phone        String?
+  address      String?
+  birthDate    DateTime?
+  gender       Gender?
+  education    String?
+  major        String?
+  institution  String?
+  experience   String?
+  position     String?         // posisi yang dilamar
+  resumeUrl    String?
+  photoUrl     String?
+  status       CandidateStatus @default(PENDING)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidateTests CandidateTest[]
+
+  @@map("candidates")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum CandidateStatus {
+  PENDING    // Menunggu seleksi
+  REVIEWING  // Sedang diproses
+  ACCEPTED   // Diterima
+  REJECTED   // Ditolak
+}
+
+// ============================================================
+// QUESTION BANK (BANK SOAL)
+// ============================================================
+
+model QuestionCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  title       String
+  description String?
+  companyId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company       Company?       @relation(fields: [companyId], references: [id])
+  questions     Question[]
+  testSchedules TestSchedule[]
+
+  @@map("question_codes")
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  content       String
+  type          QuestionType
+  correctAnswer String?      // untuk essay (kunci jawaban)
+  point         Int          @default(10)
+  companyId     String?
+  createdById   String?
+  questionCodeId String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  company          Company?          @relation(fields: [companyId], references: [id])
+  createdBy        User?             @relation("QuestionCreator", fields: [createdById], references: [id])
+  questionCode     QuestionCode?     @relation(fields: [questionCodeId], references: [id])
+  options          Option[]
+  candidateAnswers CandidateAnswer[]
+
+  @@map("questions")
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  ESSAY
+}
+
+model Option {
+  id         String  @id @default(cuid())
+  questionId String
+  label      String  // A, B, C, D, E
+  content    String
+  isCorrect  Boolean @default(false)
+
+  question         Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  candidateAnswers CandidateAnswer[]
+
+  @@map("options")
+}
+
+// ============================================================
+// TEST SCHEDULE (JADWAL TES)
+// ============================================================
+
+model TestSchedule {
+  id             String    @id @default(cuid())
+  title          String
+  codeTest       String    @unique
+  questionCodeId String
+  companyId      String?
+  startTime      DateTime
+  endTime        DateTime
+  duration       Int       // durasi dalam menit
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  questionCode   QuestionCode    @relation(fields: [questionCodeId], references: [id])
+  company        Company?        @relation(fields: [companyId], references: [id])
+  candidateTests CandidateTest[]
+
+  @@map("test_schedules")
+}
+
+// ============================================================
+// CANDIDATE TEST (TES YANG DIIKUTI KANDIDAT)
+// ============================================================
+
+model CandidateTest {
+  id             String     @id @default(cuid())
+  candidateId    String
+  testScheduleId String
+  startedAt      DateTime?
+  submittedAt    DateTime?
+  status         TestStatus @default(NOT_STARTED)
+  totalScore     Float?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  candidate    Candidate         @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  testSchedule TestSchedule      @relation(fields: [testScheduleId], references: [id])
+  answers      CandidateAnswer[]
+  testResult   TestResult?
+
+  @@unique([candidateId, testScheduleId])
+  @@map("candidate_tests")
+}
+
+enum TestStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+}
+
+model CandidateAnswer {
+  id              String   @id @default(cuid())
+  candidateTestId String
+  questionId      String
+  selectedOptionId String? // untuk MC
+  essayAnswer     String?  // untuk essay
+  score           Float?   // nilai yang diberikan (0-100)
+  feedback        String?  // feedback dari admin untuk essay
+  isCorrect       Boolean?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  candidateTest  CandidateTest @relation(fields: [candidateTestId], references: [id], onDelete: Cascade)
+  question       Question      @relation(fields: [questionId], references: [id])
+  selectedOption Option?       @relation(fields: [selectedOptionId], references: [id])
+
+  @@unique([candidateTestId, questionId])
+  @@map("candidate_answers")
+}
+
+// ============================================================
+// TEST RESULT (HASIL TES)
+// ============================================================
+
+model TestResult {
+  id              String         @id @default(cuid())
+  candidateTestId String         @unique
+  totalScore      Float
+  mcScore         Float?
+  essayScore      Float?
+  maxScore        Float
+  percentage      Float
+  status          SelectionResult
+  adminNotes      String?
+  gradedAt        DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  candidateTest CandidateTest @relation(fields: [candidateTestId], references: [id], onDelete: Cascade)
+
+  @@map("test_results")
+}
+
+enum SelectionResult {
+  LULUS
+  TIDAK_LULUS
+  MENUNGGU_PENILAIAN
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  senderId    String?
+  title       String
+  message     String
+  type        NotificationType @default(GENERAL)
+  isRead      Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+
+  recipient User  @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  sender    User? @relation("NotificationSender", fields: [senderId], references: [id])
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  GENERAL
+  TEST_INVITATION
+  TEST_RESULT
+  SELECTION_UPDATE
+  SYSTEM
+}
