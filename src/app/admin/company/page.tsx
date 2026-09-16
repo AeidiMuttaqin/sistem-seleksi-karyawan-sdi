@@ -56,63 +56,66 @@ export default function CompanyPage() {
   if (loading) return <div className="flex justify-center mt-20"><div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" /></div>
 
   return (
-    <div className="animate-fade-in max-w-2xl">
+    <div className="animate-fade-in max-w-2xl mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Data Perusahaan</h1>
         <p className="text-gray-500 text-sm">Informasi PT. Solusi Datamart Indonesia</p>
       </div>
 
       <div className="card">
-        <div className="card-header">
+        <div className="card-header py-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-blue-600" />
+            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Building2 className="w-4 h-4 text-blue-600" />
             </div>
             <div>
-              <h2 className="font-semibold text-gray-900">Profil Perusahaan</h2>
-              <p className="text-sm text-gray-400">Edit informasi perusahaan</p>
+              <h2 className="text-lg font-bold text-gray-900">Profil Perusahaan</h2>
+              <p className="text-xs text-gray-400">Edit informasi perusahaan</p>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="card-body space-y-4">
-          {success && <div className="alert-success"><CheckCircle className="w-4 h-4" /> Data perusahaan berhasil disimpan</div>}
-          {error && <div className="alert-error"><AlertCircle className="w-4 h-4" /> {error}</div>}
+        <form onSubmit={handleSubmit} className="card-body py-4">
+          {success && <div className="alert-success mb-4 py-2"><CheckCircle className="w-4 h-4" /> Data perusahaan berhasil disimpan</div>}
+          {error && <div className="alert-error mb-4 py-2"><AlertCircle className="w-4 h-4" /> {error}</div>}
 
-          <div className="form-group">
-            <label className="form-label">Nama Perusahaan <span className="text-red-500">*</span></label>
-            <input type="text" name="name" value={form.name} onChange={handleChange} className="form-input" required />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="form-label">Nama Perusahaan <span className="text-red-500">*</span></label>
+              <input type="text" name="name" value={form.name} onChange={handleChange} className="form-input py-1.5" required />
+            </div>
+            <div>
+              <label className="form-label">Website</label>
+              <input type="url" name="website" value={form.website} onChange={handleChange} className="form-input py-1.5" placeholder="https://..." />
+            </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Alamat</label>
-            <textarea name="address" value={form.address} onChange={handleChange} className="form-textarea" rows={2} />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="form-group">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
               <label className="form-label">Telepon</label>
-              <input type="text" name="phone" value={form.phone} onChange={handleChange} className="form-input" placeholder="021-..." />
+              <input type="text" name="phone" value={form.phone} onChange={handleChange} className="form-input py-1.5" placeholder="021-..." />
             </div>
-            <div className="form-group">
+            <div>
               <label className="form-label">Email Perusahaan</label>
-              <input type="email" name="email" value={form.email} onChange={handleChange} className="form-input" />
+              <input type="email" name="email" value={form.email} onChange={handleChange} className="form-input py-1.5" />
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Website</label>
-            <input type="url" name="website" value={form.website} onChange={handleChange} className="form-input" placeholder="https://..." />
+          <div className="mb-4">
+            <label className="form-label">Alamat</label>
+            <textarea name="address" value={form.address} onChange={handleChange} className="form-textarea py-2 text-sm" rows={2} />
           </div>
 
-          <div className="form-group">
+          <div className="mb-4">
             <label className="form-label">Deskripsi</label>
-            <textarea name="description" value={form.description} onChange={handleChange} className="form-textarea" rows={3} />
+            <textarea name="description" value={form.description} onChange={handleChange} className="form-textarea py-2 text-sm" rows={2} />
           </div>
 
-          <button type="submit" disabled={saving} className="btn-primary">
-            {saving ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan Perubahan</>}
-          </button>
+          <div className="pt-3 border-t border-gray-100 mt-4">
+            <button type="submit" disabled={saving} className="btn-primary">
+              {saving ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan Perubahan</>}
+            </button>
+          </div>
         </form>
       </div>
     </div>

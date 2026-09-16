@@ -94,77 +94,75 @@ export default function AddQuestionPage() {
   }
 
   return (
-    <div className="animate-fade-in max-w-3xl">
-      <div className="mb-6">
+    <div className="animate-fade-in max-w-4xl mx-auto">
+      <div className="mb-4">
         <Link href="/admin/questions" className="btn-outline btn-sm">
           <ArrowLeft className="w-4 h-4" /> Kembali
         </Link>
       </div>
 
       <div className="card">
-        <div className="card-header">
-          <h1 className="text-xl font-bold text-gray-900">Tambah Soal Baru</h1>
-          <p className="text-sm text-gray-400 mt-0.5">Buat soal pilihan ganda atau essay</p>
+        <div className="card-header py-3">
+          <h1 className="text-lg font-bold text-gray-900">Tambah Soal Baru</h1>
+          <p className="text-xs text-gray-400 mt-0.5">Buat soal pilihan ganda atau essay</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="card-body space-y-5">
+        <form onSubmit={handleSubmit} className="card-body py-4">
           {success && (
-            <div className="alert-success">
-              <CheckCircle className="w-5 h-5" /> Soal berhasil disimpan!
+            <div className="alert-success mb-4 py-2">
+              <CheckCircle className="w-4 h-4" /> Soal berhasil disimpan!
             </div>
           )}
           {error && (
-            <div className="alert-error">
+            <div className="alert-error mb-4 py-2">
               <AlertCircle className="w-4 h-4" /> {error}
             </div>
           )}
 
-          {/* Type & Point */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="form-group">
+          {/* Top Config Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
               <label className="form-label">Tipe Soal <span className="text-red-500">*</span></label>
               <select
                 value={form.type}
                 onChange={e => setForm(p => ({ ...p, type: e.target.value }))}
-                className="form-select"
+                className="form-select py-1.5"
               >
                 <option value="MULTIPLE_CHOICE">Pilihan Ganda</option>
                 <option value="ESSAY">Essay</option>
               </select>
             </div>
-            <div className="form-group">
+            <div>
               <label className="form-label">Poin</label>
               <input type="number" min="1" max="100"
                 value={form.point}
                 onChange={e => setForm(p => ({ ...p, point: e.target.value }))}
-                className="form-input"
+                className="form-input py-1.5"
               />
+            </div>
+            <div>
+              <label className="form-label">Paket Soal</label>
+              <select
+                value={form.questionCodeId}
+                onChange={e => setForm(p => ({ ...p, questionCodeId: e.target.value }))}
+                className="form-select py-1.5"
+              >
+                <option value="">-- Tidak dimasukkan ke paket --</option>
+                {questionCodes.map((qc: any) => (
+                  <option key={qc.id} value={qc.id}>{qc.code} - {qc.title}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Paket Soal */}
-          <div className="form-group">
-            <label className="form-label">Paket Soal</label>
-            <select
-              value={form.questionCodeId}
-              onChange={e => setForm(p => ({ ...p, questionCodeId: e.target.value }))}
-              className="form-select"
-            >
-              <option value="">-- Tidak dimasukkan ke paket --</option>
-              {questionCodes.map((qc: any) => (
-                <option key={qc.id} value={qc.id}>{qc.code} - {qc.title}</option>
-              ))}
-            </select>
-          </div>
-
           {/* Question content */}
-          <div className="form-group">
+          <div className="mb-4">
             <label className="form-label">Pertanyaan <span className="text-red-500">*</span></label>
             <textarea
               value={form.content}
               onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
-              className="form-textarea"
-              rows={4}
+              className="form-textarea py-2 text-sm"
+              rows={3}
               placeholder="Tuliskan pertanyaan di sini..."
               required
             />
@@ -172,12 +170,12 @@ export default function AddQuestionPage() {
 
           {/* Multiple Choice Options */}
           {form.type === 'MULTIPLE_CHOICE' && (
-            <div className="form-group">
-              <label className="form-label">Pilihan Jawaban <span className="text-red-500">*</span></label>
-              <div className="space-y-2">
+            <div className="mb-4">
+              <label className="form-label mb-2 block">Pilihan Jawaban <span className="text-red-500">*</span></label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {options.map((opt, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                  <div key={idx} className="flex items-center gap-2 bg-gray-50/50 p-1.5 rounded-lg border border-gray-200">
+                    <div className="flex items-center gap-2 flex-shrink-0 pl-1">
                       <input
                         type="radio"
                         name="correctOption"
@@ -186,7 +184,7 @@ export default function AddQuestionPage() {
                         className="w-4 h-4 text-blue-600"
                         title="Tandai sebagai jawaban benar"
                       />
-                      <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${opt.isCorrect ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-600'}`}>
+                      <span className={`w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold flex-shrink-0 ${opt.isCorrect ? 'bg-green-500 text-white' : 'bg-white border border-gray-200 text-gray-600'}`}>
                         {opt.label}
                       </span>
                     </div>
@@ -194,44 +192,46 @@ export default function AddQuestionPage() {
                       type="text"
                       value={opt.content}
                       onChange={e => updateOption(idx, 'content', e.target.value)}
-                      className="form-input flex-1"
+                      className="form-input flex-1 py-1.5 px-3 text-sm min-w-0"
                       placeholder={`Pilihan ${opt.label}`}
                     />
                     {options.length > 2 && (
                       <button type="button" onClick={() => removeOption(idx)}
-                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        className="p-1.5 mr-1 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors flex-shrink-0">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
                   </div>
                 ))}
+              </div>
+              <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2">
                 {options.length < 6 && (
                   <button type="button" onClick={addOption}
-                    className="btn-outline btn-sm mt-1">
+                    className="btn-outline btn-sm py-1 px-2 text-xs">
                     <Plus className="w-3 h-3" /> Tambah Pilihan
                   </button>
                 )}
-                <p className="text-xs text-gray-400">Pilih radio button untuk menandai jawaban yang benar</p>
+                <p className="text-[11px] text-gray-400">Pilih radio button untuk menandai jawaban yang benar</p>
               </div>
             </div>
           )}
 
           {/* Essay Answer Key */}
           {form.type === 'ESSAY' && (
-            <div className="form-group">
+            <div className="mb-4">
               <label className="form-label">Kunci Jawaban (Opsional)</label>
               <textarea
                 value={form.correctAnswer}
                 onChange={e => setForm(p => ({ ...p, correctAnswer: e.target.value }))}
-                className="form-textarea"
-                rows={3}
+                className="form-textarea py-2 text-sm"
+                rows={2}
                 placeholder="Tuliskan kunci jawaban sebagai panduan penilaian..."
               />
-              <p className="text-xs text-gray-400 mt-1">Kunci jawaban hanya digunakan sebagai referensi admin saat menilai</p>
+              <p className="text-[11px] text-gray-400 mt-1">Kunci jawaban hanya digunakan sebagai referensi admin saat menilai</p>
             </div>
           )}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-4 border-t border-gray-100 mt-4">
             <button type="submit" disabled={loading || success} className="btn-primary">
               {loading ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan Soal</>}
             </button>

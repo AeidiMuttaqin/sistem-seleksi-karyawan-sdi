@@ -122,25 +122,25 @@ export default function QuestionCodesPage() {
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">✕</button>
             </div>
             <form onSubmit={handleSave}>
-              <div className="modal-body space-y-4">
-                {error && <div className="alert-error text-sm">{error}</div>}
-                <div className="form-group">
+              <div className="modal-body py-4">
+                {error && <div className="alert-error text-sm mb-3 py-2">{error}</div>}
+                <div className="mb-3">
                   <label className="form-label">Kode Paket <span className="text-red-500">*</span></label>
                   <input type="text" value={form.code} onChange={e => setForm(p => ({ ...p, code: e.target.value }))}
-                    className="form-input font-mono" placeholder="PKT-001" required />
+                    className="form-input font-mono py-1.5" placeholder="PKT-001" required />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                   <label className="form-label">Nama Paket <span className="text-red-500">*</span></label>
                   <input type="text" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-                    className="form-input" placeholder="Tes Developer - Batch 1" required />
+                    className="form-input py-1.5" placeholder="Tes Developer - Batch 1" required />
                 </div>
-                <div className="form-group">
+                <div className="mb-3">
                   <label className="form-label">Deskripsi</label>
                   <textarea value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
-                    className="form-textarea" rows={2} placeholder="Opsional..." />
+                    className="form-textarea py-1.5 text-sm" rows={2} placeholder="Opsional..." />
                 </div>
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer py-3">
                 <button type="button" onClick={() => setShowModal(false)} className="btn-outline">Batal</button>
                 <button type="submit" disabled={saving} className="btn-primary">
                   {saving ? 'Menyimpan...' : 'Simpan'}

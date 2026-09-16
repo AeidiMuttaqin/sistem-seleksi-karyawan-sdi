@@ -4,8 +4,7 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import AdminSidebar from '@/components/admin/AdminSidebar'
-import AdminHeader from '@/components/admin/AdminHeader'
+import AdminLayoutWrapper from '@/components/admin/AdminLayoutWrapper'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -19,14 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (session.user.role !== 'ADMIN') redirect('/user')
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar />
-      <div className="flex-1 ml-64">
-        <AdminHeader user={session.user} />
-        <main className="p-6">
-          {children}
-        </main>
-      </div>
-    </div>
+    <AdminLayoutWrapper user={session.user}>
+      {children}
+    </AdminLayoutWrapper>
   )
 }

@@ -36,7 +36,7 @@ export default function CandidateDetailPage() {
   const lastTest = candidate.candidateTests?.[0]
 
   return (
-    <div className="animate-fade-in max-w-4xl">
+    <div className="animate-fade-in max-w-4xl mx-auto">
       {/* Back button */}
       <div className="mb-6">
         <Link href="/admin/candidates" className="btn-outline btn-sm">

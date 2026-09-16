@@ -44,7 +44,7 @@ export default function AdminProfilePage() {
   }
 
   return (
-    <div className="animate-fade-in max-w-lg">
+    <div className="animate-fade-in max-w-lg mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Profil Admin</h1>
         <p className="text-gray-500 text-sm">Kelola akun dan keamanan</p>
@@ -76,44 +76,48 @@ export default function AdminProfilePage() {
         </button>
       </div>
 
-      {success && <div className="alert-success mb-4"><CheckCircle className="w-4 h-4" /> {success}</div>}
-      {error && <div className="alert-error mb-4"><AlertCircle className="w-4 h-4" /> {error}</div>}
+      {success && <div className="alert-success mb-4 py-2"><CheckCircle className="w-4 h-4" /> {success}</div>}
+      {error && <div className="alert-error mb-4 py-2"><AlertCircle className="w-4 h-4" /> {error}</div>}
 
       <div className="card">
         {tab === 'profile' ? (
-          <form onSubmit={saveProfile} className="card-body space-y-4">
-            <div className="form-group">
+          <form onSubmit={saveProfile} className="card-body py-4">
+            <div className="mb-4">
               <label className="form-label">Username</label>
               <input type="text" value={profileForm.username}
                 onChange={e => setProfileForm({ username: e.target.value })}
-                className="form-input" required />
+                className="form-input py-1.5" required />
             </div>
-            <div className="form-group">
+            <div className="mb-4">
               <label className="form-label">Email</label>
-              <input type="email" value={session?.user?.email || ''} className="form-input" disabled readOnly />
-              <p className="text-xs text-gray-400 mt-1">Email tidak dapat diubah</p>
+              <input type="email" value={session?.user?.email || ''} className="form-input py-1.5 bg-gray-50" disabled readOnly />
+              <p className="text-[11px] text-gray-400 mt-1">Email tidak dapat diubah</p>
             </div>
-            <button type="submit" disabled={saving} className="btn-primary">
-              {saving ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan</>}
-            </button>
+            <div className="pt-3 border-t border-gray-100 mt-4">
+              <button type="submit" disabled={saving} className="btn-primary">
+                {saving ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan</>}
+              </button>
+            </div>
           </form>
         ) : (
-          <form onSubmit={savePassword} className="card-body space-y-4">
-            <div className="form-group">
+          <form onSubmit={savePassword} className="card-body py-4">
+            <div className="mb-4">
               <label className="form-label">Password Baru</label>
               <input type="password" value={passForm.newPassword}
                 onChange={e => setPassForm(p => ({ ...p, newPassword: e.target.value }))}
-                className="form-input" placeholder="Min. 6 karakter" required />
+                className="form-input py-1.5" placeholder="Min. 6 karakter" required />
             </div>
-            <div className="form-group">
+            <div className="mb-4">
               <label className="form-label">Konfirmasi Password Baru</label>
               <input type="password" value={passForm.confirmPassword}
                 onChange={e => setPassForm(p => ({ ...p, confirmPassword: e.target.value }))}
-                className="form-input" required />
+                className="form-input py-1.5" required />
             </div>
-            <button type="submit" disabled={saving} className="btn-primary">
-              {saving ? 'Menyimpan...' : <><Lock className="w-4 h-4" /> Ubah Password</>}
-            </button>
+            <div className="pt-3 border-t border-gray-100 mt-4">
+              <button type="submit" disabled={saving} className="btn-primary">
+                {saving ? 'Menyimpan...' : <><Lock className="w-4 h-4" /> Ubah Password</>}
+              </button>
+            </div>
           </form>
         )}
       </div>

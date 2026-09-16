@@ -53,36 +53,32 @@ export default function CandidatesPage() {
   return (
     <div className="animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Data Kandidat</h1>
-          <p className="text-gray-500 text-sm">Total {total} kandidat terdaftar</p>
-        </div>
-        <div className="flex gap-2">
-          <Link href="/admin/candidates/add" className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Kandidat
-          </Link>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Data Kandidat</h1>
+        <p className="text-gray-500 text-sm mt-1">Total {total} kandidat terdaftar</p>
       </div>
-
-      {/* Filters */}
-      <div className="card mb-4">
-        <div className="card-body flex flex-wrap gap-3">
-          <div className="flex-1 min-w-48 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Cari nama, posisi, atau email..."
-              value={search}
-              onChange={e => { setSearch(e.target.value); setPage(1) }}
-              className="form-input pl-9"
-            />
-          </div>
-          <div className="w-44">
+      
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        {/* Left: Search */}
+        <div className="w-full sm:w-auto flex-1 max-w-md relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Cari nama, posisi, atau email..."
+            value={search}
+            onChange={e => { setSearch(e.target.value); setPage(1) }}
+            className="form-input pl-9 w-full"
+          />
+        </div>
+        
+        {/* Right: Filter & Add */}
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="w-full sm:w-44">
             <select
               value={status}
               onChange={e => { setStatus(e.target.value); setPage(1) }}
-              className="form-select"
+              className="form-select w-full"
             >
               <option value="">Semua Status</option>
               {STATUS_OPTIONS.filter(Boolean).map(s => (
@@ -90,6 +86,9 @@ export default function CandidatesPage() {
               ))}
             </select>
           </div>
+          <Link href="/admin/candidates/add" className="btn-primary whitespace-nowrap">
+            <Plus className="w-4 h-4" /> Tambah Kandidat
+          </Link>
         </div>
       </div>
 

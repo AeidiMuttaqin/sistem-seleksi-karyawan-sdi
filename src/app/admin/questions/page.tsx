@@ -36,38 +36,39 @@ export default function QuestionsPage() {
 
   return (
     <div className="animate-fade-in">
-      <div className="flex items-center justify-between mb-6">
+      {/* Header & Actions */}
+      <div className="flex flex-col gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Bank Soal</h1>
-          <p className="text-gray-500 text-sm">Total {total} soal tersedia</p>
+          <p className="text-gray-500 text-sm mt-1">Total {total} soal tersedia</p>
         </div>
-        <div className="flex gap-2">
-          <Link href="/admin/question-codes" className="btn-outline">
-            <BookOpen className="w-4 h-4" /> Paket Soal
-          </Link>
-          <Link href="/admin/questions/add" className="btn-primary">
-            <Plus className="w-4 h-4" /> Tambah Soal
-          </Link>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="card mb-4">
-        <div className="card-body flex flex-wrap gap-3">
-          <div className="flex-1 min-w-48 relative">
+        
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+          <div className="w-full sm:w-auto flex-1 max-w-md relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text" placeholder="Cari soal..."
               value={search}
               onChange={e => { setSearch(e.target.value); setPage(1) }}
-              className="form-input pl-9"
+              className="form-input pl-9 w-full"
             />
           </div>
-          <select value={type} onChange={e => { setType(e.target.value); setPage(1) }} className="form-select w-44">
-            <option value="">Semua Tipe</option>
-            <option value="MULTIPLE_CHOICE">Pilihan Ganda</option>
-            <option value="ESSAY">Essay</option>
-          </select>
+          
+          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <div className="w-full sm:w-44">
+              <select value={type} onChange={e => { setType(e.target.value); setPage(1) }} className="form-select w-full">
+                <option value="">Semua Tipe</option>
+                <option value="MULTIPLE_CHOICE">Pilihan Ganda</option>
+                <option value="ESSAY">Essay</option>
+              </select>
+            </div>
+            <Link href="/admin/question-codes" className="btn-outline whitespace-nowrap flex-1 sm:flex-none justify-center">
+              <BookOpen className="w-4 h-4" /> Paket Soal
+            </Link>
+            <Link href="/admin/questions/add" className="btn-primary whitespace-nowrap flex-1 sm:flex-none justify-center">
+              <Plus className="w-4 h-4" /> Tambah Soal
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Plus, Calendar, Clock, Users, Eye, Trash2, Toggle } from 'lucide-react'
+import { Plus, Calendar, Clock, Users, Eye, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { formatDateTime } from '@/lib/utils'
 

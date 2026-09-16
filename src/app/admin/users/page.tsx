@@ -1,23 +1,29 @@
 // src/app/admin/users/page.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import { UserCog, Trash2, Shield, User } from 'lucide-react'
+import { useEffect, useState, useCallback } from 'react'
+import { UserCog, Trash2, Shield, User, Search } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
 export default function UsersPage() {
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [role, setRole] = useState('')
 
-  useEffect(() => { fetchUsers() }, [])
-
-  async function fetchUsers() {
+  const fetchUsers = useCallback(async () => {
     setLoading(true)
-    const res = await fetch('/api/users')
+    const params = new URLSearchParams()
+    if (search) params.append('search', search)
+    if (role) params.append('role', role)
+    
+    const res = await fetch(`/api/users?${params.toString()}`)
     const data = await res.json()
     setUsers(Array.isArray(data) ? data : [])
     setLoading(false)
-  }
+  }, [search, role])
+
+  useEffect(() => { fetchUsers() }, [fetchUsers])
 
   async function handleDelete(id: string) {
     if (!confirm('Hapus user ini? Semua data terkait akan ikut terhapus.')) return
@@ -30,6 +36,28 @@ export default function UsersPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Manajemen User</h1>
         <p className="text-gray-500 text-sm">Kelola semua user dalam sistem</p>
+      </div>
+
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div className="w-full sm:w-auto flex-1 max-w-md relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text" placeholder="Cari username atau email..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="form-input pl-9 w-full"
+          />
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div className="w-full sm:w-44">
+            <select value={role} onChange={e => setRole(e.target.value)} className="form-select w-full">
+              <option value="">Semua Role</option>
+              <option value="ADMIN">Admin</option>
+              <option value="USER">User</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="card">
