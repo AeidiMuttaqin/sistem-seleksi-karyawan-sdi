@@ -87,7 +87,7 @@ export default function UserProfilePage() {
         {/* Profile header */}
         <div className="card-body border-b border-gray-100">
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
+            <div className="w-20 h-20 bg-gray-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
               {candidate?.fullName?.[0] || '?'}
             </div>
             <div>

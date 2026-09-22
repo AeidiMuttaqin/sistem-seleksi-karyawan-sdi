@@ -48,7 +48,7 @@ export default function CandidateDetailPage() {
       <div className="card mb-6">
         <div className="card-body">
           <div className="flex items-start gap-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+            <div className="w-20 h-20 bg-gray-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
               {candidate.fullName[0]}
             </div>
             <div className="flex-1">
