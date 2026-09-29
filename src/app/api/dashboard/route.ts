@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // src/app/api/dashboard/route.ts
 // Stats untuk admin dashboard
 

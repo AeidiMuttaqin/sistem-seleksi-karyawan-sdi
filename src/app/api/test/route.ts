@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // src/app/api/test/route.ts
 // API untuk mengambil dan mengerjakan tes
 
