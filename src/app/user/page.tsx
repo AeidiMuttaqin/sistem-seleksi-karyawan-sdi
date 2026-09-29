@@ -50,16 +50,6 @@ export default function UserDashboardPage() {
               {candidate?.position ? `Melamar sebagai ${candidate.position}` : 'Lengkapi profil Anda untuk memulai'}
             </p>
           </div>
-          <div className="text-right">
-            <p className="text-blue-200 text-xs">Status Lamaran</p>
-            {candidate ? (
-              <span className={`badge mt-1 ${getStatusColor(candidate.status)} text-sm px-3`}>
-                {getStatusLabel(candidate.status)}
-              </span>
-            ) : (
-              <span className="badge bg-white/20 text-white text-sm px-3 mt-1">—</span>
-            )}
-          </div>
         </div>
       </div>
 

@@ -133,14 +133,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Demo accounts */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-          <p className="text-xs font-semibold text-blue-700 mb-2">Akun Demo:</p>
-          <div className="space-y-1 text-xs text-blue-600">
-            <p>👤 Admin: admin@solusi-datamart.co.id / admin123</p>
-            <p>🙋 Kandidat: budi@example.com / user123</p>
-          </div>
-        </div>
+
       </div>
     </div>
   )

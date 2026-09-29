@@ -48,7 +48,7 @@ export default function CandidateDetailPage() {
       <div className="card mb-6">
         <div className="card-body">
           <div className="flex items-start gap-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+            <div className="w-20 h-20 bg-gray-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
               {candidate.fullName[0]}
             </div>
             <div className="flex-1">
@@ -58,9 +58,6 @@ export default function CandidateDetailPage() {
                   <p className="text-blue-600 font-medium">{candidate.position || 'Posisi belum diisi'}</p>
                   <p className="text-sm text-gray-400 mt-0.5">{candidate.user?.email}</p>
                 </div>
-                <span className={`badge ${getStatusColor(candidate.status)} text-sm px-3 py-1`}>
-                  {getStatusLabel(candidate.status)}
-                </span>
               </div>
             </div>
           </div>

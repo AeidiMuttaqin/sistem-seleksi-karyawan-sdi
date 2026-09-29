@@ -39,7 +39,7 @@ export default function UserNotificationsPage() {
   const unreadCount = notifications.filter(n => !n.isRead).length
 
   return (
-    <div className="animate-fade-in max-w-2xl">
+    <div className="animate-fade-in max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Notifikasi</h1>

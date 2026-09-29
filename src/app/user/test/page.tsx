@@ -164,7 +164,7 @@ export default function UserTestPage() {
 
   // Taking test screen
   return (
-    <div className="animate-fade-in max-w-3xl">
+    <div className="animate-fade-in max-w-3xl mx-auto">
       {/* Header bar */}
       <div className="bg-white rounded-2xl border border-gray-200 p-4 mb-6 flex items-center justify-between shadow-sm">
         <div>

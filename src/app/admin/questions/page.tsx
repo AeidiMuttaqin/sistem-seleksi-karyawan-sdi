@@ -105,9 +105,9 @@ export default function QuestionsPage() {
                     <td className="text-gray-400 text-sm">{(page - 1) * 10 + idx + 1}</td>
                     <td className="max-w-sm">
                       <p className="text-sm text-gray-800 leading-relaxed">{truncateText(q.content, 120)}</p>
-                      {q.type === 'MULTIPLE_CHOICE' && (
+                      {/* {q.type === 'MULTIPLE_CHOICE' && (
                         <p className="text-xs text-gray-400 mt-1">{q.options?.length || 0} pilihan jawaban</p>
-                      )}
+                      )} */}
                     </td>
                     <td>
                       <span className={`badge ${q.type === 'MULTIPLE_CHOICE' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>

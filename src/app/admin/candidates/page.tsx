@@ -74,18 +74,7 @@ export default function CandidatesPage() {
         
         {/* Right: Filter & Add */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="w-full sm:w-44">
-            <select
-              value={status}
-              onChange={e => { setStatus(e.target.value); setPage(1) }}
-              className="form-select w-full"
-            >
-              <option value="">Semua Status</option>
-              {STATUS_OPTIONS.filter(Boolean).map(s => (
-                <option key={s} value={s}>{getStatusLabel(s)}</option>
-              ))}
-            </select>
-          </div>
+
           <Link href="/admin/candidates/add" className="btn-primary whitespace-nowrap">
             <Plus className="w-4 h-4" /> Tambah Kandidat
           </Link>
@@ -102,7 +91,7 @@ export default function CandidatesPage() {
                 <th>Posisi Dilamar</th>
                 <th>Pendidikan</th>
                 <th>Tanggal Daftar</th>
-                <th>Status</th>
+
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -110,7 +99,7 @@ export default function CandidatesPage() {
               {loading ? (
                 [...Array(5)].map((_, i) => (
                   <tr key={i}>
-                    {[...Array(6)].map((_, j) => (
+                    {[...Array(5)].map((_, j) => (
                       <td key={j}><div className="h-4 bg-gray-100 rounded animate-pulse" /></td>
                     ))}
                   </tr>
@@ -142,17 +131,7 @@ export default function CandidatesPage() {
                       </div>
                     </td>
                     <td className="text-gray-500 text-sm">{formatDate(c.createdAt)}</td>
-                    <td>
-                      <select
-                        value={c.status}
-                        onChange={e => handleStatusChange(c.id, e.target.value)}
-                        className={`text-xs font-medium px-2 py-1 rounded-full border-0 cursor-pointer ${getStatusColor(c.status)}`}
-                      >
-                        {STATUS_OPTIONS.filter(Boolean).map(s => (
-                          <option key={s} value={s}>{getStatusLabel(s)}</option>
-                        ))}
-                      </select>
-                    </td>
+
                     <td>
                       <div className="flex items-center gap-2">
                         <Link href={`/admin/candidates/${c.id}`}
