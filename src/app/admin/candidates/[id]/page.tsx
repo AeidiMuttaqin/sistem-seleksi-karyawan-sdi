@@ -58,9 +58,6 @@ export default function CandidateDetailPage() {
                   <p className="text-blue-600 font-medium">{candidate.position || 'Posisi belum diisi'}</p>
                   <p className="text-sm text-gray-400 mt-0.5">{candidate.user?.email}</p>
                 </div>
-                <span className={`badge ${getStatusColor(candidate.status)} text-sm px-3 py-1`}>
-                  {getStatusLabel(candidate.status)}
-                </span>
               </div>
             </div>
           </div>

@@ -18,8 +18,6 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: '',
     fullName: '',
-    phone: '',
-    position: '',
   })
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -49,8 +47,6 @@ export default function RegisterPage() {
           email: form.email,
           password: form.password,
           fullName: form.fullName,
-          phone: form.phone,
-          position: form.position,
         }),
       })
 
@@ -111,28 +107,16 @@ export default function RegisterPage() {
                 className="form-input" placeholder="Nama lengkap sesuai KTP" required />
             </div>
 
-            <div className="form-group">
+            <div className="form-group col-span-2">
               <label className="form-label">Username <span className="text-red-500">*</span></label>
               <input name="username" type="text" value={form.username} onChange={handleChange}
                 className="form-input" placeholder="username" required />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">No. Telepon</label>
-              <input name="phone" type="tel" value={form.phone} onChange={handleChange}
-                className="form-input" placeholder="08xxxxxxxxxx" />
             </div>
 
             <div className="form-group col-span-2">
               <label className="form-label">Email <span className="text-red-500">*</span></label>
               <input name="email" type="email" value={form.email} onChange={handleChange}
                 className="form-input" placeholder="email@contoh.com" required />
-            </div>
-
-            <div className="form-group col-span-2">
-              <label className="form-label">Posisi yang Dilamar</label>
-              <input name="position" type="text" value={form.position} onChange={handleChange}
-                className="form-input" placeholder="Contoh: Full Stack Developer" />
             </div>
 
             <div className="form-group">

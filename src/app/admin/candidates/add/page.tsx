@@ -172,18 +172,9 @@ export default function AddCandidatePage() {
                   <label className="form-label">Institusi</label>
                   <input type="text" name="institution" value={form.institution} onChange={handleChange} className="form-input" />
                 </div>
-                <div className="form-group">
+                <div className="form-group col-span-2">
                   <label className="form-label">Posisi Dilamar</label>
                   <input type="text" name="position" value={form.position} onChange={handleChange} className="form-input" placeholder="Developer, Analyst..." />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Status</label>
-                  <select name="status" value={form.status} onChange={handleChange} className="form-select">
-                    <option value="PENDING">Menunggu</option>
-                    <option value="REVIEWING">Sedang Diproses</option>
-                    <option value="ACCEPTED">Diterima</option>
-                    <option value="REJECTED">Ditolak</option>
-                  </select>
                 </div>
                 <div className="form-group col-span-2">
                   <label className="form-label">Pengalaman</label>

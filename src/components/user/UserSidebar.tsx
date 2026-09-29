@@ -48,14 +48,14 @@ export default function UserSidebar({ isOpen, toggleSidebar }: UserSidebarProps)
   return (
     <aside 
       className={cn(
-        "bg-gradient-to-b from-brand-900 to-brand-800 text-white flex flex-col h-full transition-all duration-300 relative shrink-0 z-20 shadow-lg",
+        "bg-primary text-primary-foreground flex flex-col h-full transition-all duration-300 relative shrink-0 z-20 shadow-lg",
         isOpen ? "w-64" : "w-16"
       )}
     >
       {/* Toggle Button */}
       <button 
         onClick={toggleSidebar}
-        className="absolute -right-3 top-6 bg-white text-gray-500 rounded-full border border-gray-200 shadow-sm p-1 hover:text-green-600 focus:outline-none z-30"
+        className="absolute -right-3 top-6 bg-white text-gray-500 rounded-full border border-gray-200 shadow-sm p-1 hover:text-blue-600 focus:outline-none z-30"
       >
         {isOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
       </button>
@@ -65,7 +65,7 @@ export default function UserSidebar({ isOpen, toggleSidebar }: UserSidebarProps)
         {navItems.map((group, groupIndex) => (
           <div key={groupIndex} className="mb-6">
             {group.group && isOpen && (
-              <p className="px-6 py-2 text-[10px] font-bold text-brand-200 uppercase tracking-wider">
+              <p className="px-6 py-2 text-[10px] font-bold text-blue-200 uppercase tracking-wider">
                 {group.group}
               </p>
             )}

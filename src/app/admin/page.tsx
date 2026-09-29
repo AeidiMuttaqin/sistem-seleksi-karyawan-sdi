@@ -30,8 +30,8 @@ export default function AdminDashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
 
-  async function fetchData() {
-    setLoading(true)
+  async function fetchData(showLoading = true) {
+    if (showLoading) setLoading(true)
     try {
       const res = await fetch('/api/dashboard')
       const json = await res.json()
@@ -39,11 +39,15 @@ export default function AdminDashboardPage() {
     } catch (e) {
       console.error(e)
     } finally {
-      setLoading(false)
+      if (showLoading) setLoading(false)
     }
   }
 
-  useEffect(() => { fetchData() }, [])
+  useEffect(() => { 
+    fetchData(true)
+    const intervalId = setInterval(() => fetchData(false), 15000) // Auto refresh setiap 15 detik
+    return () => clearInterval(intervalId)
+  }, [])
 
   const statCards = data ? [
     {
@@ -98,11 +102,6 @@ export default function AdminDashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-500 text-sm mt-0.5">Ringkasan sistem seleksi calon karyawan</p>
         </div>
-        <button onClick={fetchData} disabled={loading}
-          className="btn-outline btn-sm">
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
       </div>
 
       {/* Stats Grid */}
@@ -154,20 +153,20 @@ export default function AdminDashboardPage() {
                   <th>Nama</th>
                   <th>Posisi</th>
                   <th>Tanggal Daftar</th>
-                  <th>Status</th>
+
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   [...Array(3)].map((_, i) => (
                     <tr key={i}>
-                      {[...Array(4)].map((_, j) => (
+                      {[...Array(3)].map((_, j) => (
                         <td key={j}><div className="h-4 bg-gray-100 rounded animate-pulse" /></td>
                       ))}
                     </tr>
                   ))
                 ) : data?.recentCandidates.length === 0 ? (
-                  <tr><td colSpan={4} className="text-center text-gray-400 py-8">Belum ada kandidat</td></tr>
+                  <tr><td colSpan={3} className="text-center text-gray-400 py-8">Belum ada kandidat</td></tr>
                 ) : (
                   data?.recentCandidates.map((c) => (
                     <tr key={c.id}>
@@ -179,11 +178,7 @@ export default function AdminDashboardPage() {
                       </td>
                       <td className="text-gray-600">{c.position || '-'}</td>
                       <td className="text-gray-500 text-xs">{formatDate(c.createdAt)}</td>
-                      <td>
-                        <span className={`badge ${getStatusColor(c.status)}`}>
-                          {getStatusLabel(c.status)}
-                        </span>
-                      </td>
+
                     </tr>
                   ))
                 )}

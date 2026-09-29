@@ -2,7 +2,7 @@
 
 // src/components/user/UserHeader.tsx
 import { signOut } from 'next-auth/react'
-import { Bell, LogOut, User, Building2 } from 'lucide-react'
+import { LogOut, User, Building2 } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
 
@@ -12,7 +12,6 @@ interface UserHeaderProps {
 
 export default function UserHeader({ user }: UserHeaderProps) {
   const [showMenu, setShowMenu] = useState(false)
-  const [unreadCount, setUnreadCount] = useState(0)
 
   const currentDate = new Date().toLocaleDateString('id-ID', {
     weekday: 'long',
@@ -25,7 +24,7 @@ export default function UserHeader({ user }: UserHeaderProps) {
     <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between z-30 shadow-sm shrink-0">
       {/* Logo Area */}
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center flex-shrink-0">
+        <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
           <Building2 className="w-5 h-5 text-white" />
         </div>
         <div className="flex flex-col">
@@ -41,13 +40,7 @@ export default function UserHeader({ user }: UserHeaderProps) {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4">
-        {/* Notifications */}
-        <Link href="/user/notifications" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors">
-          <Bell className="w-5 h-5 text-gray-500" />
-          {unreadCount > 0 && (
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          )}
-        </Link>
+
 
         {/* User menu */}
         <div className="relative">

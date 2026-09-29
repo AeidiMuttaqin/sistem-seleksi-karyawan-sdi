@@ -38,6 +38,7 @@ const navItems: NavGroup[] = [
       { href: '/admin/candidates', label: 'Data Kandidat', icon: Users },
       { href: '/admin/schedule', label: 'Jadwal Tes', icon: Calendar },
       { href: '/admin/results', label: 'Hasil Seleksi', icon: ClipboardCheck },
+      { href: '/admin/notifications', label: 'Notifikasi', icon: Bell },
     ]
   },
   {
@@ -50,7 +51,6 @@ const navItems: NavGroup[] = [
   {
     group: 'MANAJEMEN',
     items: [
-      { href: '/admin/users', label: 'Manajemen User', icon: UserCog },
       { href: '/admin/company', label: 'Data Perusahaan', icon: Building2 },
     ]
   },
